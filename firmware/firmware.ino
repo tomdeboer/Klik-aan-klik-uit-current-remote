@@ -4,6 +4,8 @@
 #include <avr/interrupt.h>
 
 #include <RCSwitch.h>
+#define RC_GROUP 1
+#define RC_DEVICE 1
 
 // Use pin 2 as wake up pin
 const int wakeUpPin = 4;
@@ -13,7 +15,11 @@ RCSwitch relay = RCSwitch();
 
 void wakeUp()
 {
-    relay.switchOn(1, (int) digitalRead(wakeUpPin));
+    if (digitalRead(wakeUpPin)) {
+        relay.switchOn(RC_GROUP, RC_DEVICE);
+    } else {
+        relay.switchOff(RC_GROUP, RC_DEVICE);
+    } 
 }
 
 void setup()
